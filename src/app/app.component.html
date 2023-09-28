@@ -1,0 +1,50 @@
+<table>
+  <tr>
+    <td rowspan="2" align="center">Toppings</td>
+    <td colspan="4" align="center">Pizza Size</td>
+  </tr>
+  <tr>
+    <td *ngFor="let option of pizzaOptions">{{option.size}}</td>
+  </tr>
+  <tr>
+    <td colspan="5">Veg Toppings</td>
+  </tr>
+  <tr *ngFor="let toppingOption of veganOptions">
+    <td>{{ toppingOption.name }}</td>
+    <td *ngFor="let pizzaOption of pizzaOptions">
+      <input type="checkbox" (change)="toppingChanged($event, toppingOption, pizzaOption)"/>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="5">Non Veg Toppings</td>
+  </tr>
+  <tr *ngFor="let toppingOption of meatOptions">
+    <td>{{ toppingOption.name }}</td>
+    <td *ngFor="let pizzaOption of pizzaOptions">
+      <input type="checkbox" (change)="toppingChanged($event, toppingOption, pizzaOption)"/>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="5">Total</td>
+  </tr>
+  <tr>
+    <td>Offer</td>
+    <td *ngFor="let pizzaOption of pizzaOptions">
+      {{(getOffer(pizzaOption) | async)?.name}}
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td *ngFor="let pizzaOption of pizzaOptions">
+      <span [ngClass]="{'linethrough': (getOffer(pizzaOption) | async)?.hasDiscount}">
+        {{(getOffer(pizzaOption) | async)?.regularPrice | currency}}
+      </span>
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td *ngFor="let pizzaOption of pizzaOptions">
+      {{(getOffer(pizzaOption) | async)?.discounterPrice | currency}}
+    </td>
+  </tr>
+</table>
